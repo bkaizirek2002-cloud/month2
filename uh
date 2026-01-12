@@ -1,0 +1,97 @@
+class Contact:
+    def __init__(self, name, phone_number):
+        self.name = name
+        self.phone_number = phone_number
+
+    @classmethod
+    def validate_phone_number(cls, phone_number):
+        # Проверяем, что строка состоит только из цифр и имеет длину 10
+        return isinstance(phone_number, str) and phone_number.isdigit() and len(phone_number) == 10
+
+
+
+class ContactList:
+    all_contacts = []  # Список для хранения всех контактов
+
+    @classmethod
+    def add_contact(cls, name, phone_number):
+        # 1. Проверяем номер через классовый метод Contact
+        if not Contact.validate_phone_number(phone_number):
+            raise ValueError(f"Некорректный номер телефона: {phone_number}. Должно быть ровно 10 цифр.")
+
+        # 2. Создаём новый объект Contact
+        new_contact = Contact(name, phone_number)
+
+        # 3. Добавляем в список all_contacts
+        cls.all_contacts.append(new_contact)
+Дополнительное задание (с ID и удалением)
+python
+class Contact:
+    def __init__(self, name, phone_number, id):
+        self.name = name
+        self.phone_number = phone_number
+        self.id = id  # Уникальный идентификатор контакта
+
+    @classmethod
+    def validate_phone_number(cls, phone_number):
+        return isinstance(phone_number, str) and phone_number.isdigit() and len(phone_number) == 10
+
+
+
+class ContactList:
+    all_contacts = []        # Список всех контактов
+    last_id = 0             # Последний присвоенный ID
+
+    @classmethod
+    def add_contact(cls, name, phone_number):
+        if not Contact.validate_phone_number(phone_number):
+            raise ValueError(f"Некорректный номер телефона: {phone_number}. Должно быть ровно 10 цифр.")
+
+        # Увеличиваем last_id и используем как ID нового контакта
+        cls.last_id += 1
+        new_contact = Contact(name, phone_number, cls.last_id)
+
+        cls.all_contacts.append(new_contact)
+
+    @classmethod
+    def remove_contact(cls, contact_id):
+        """
+        Удаляет контакт по ID.
+        Если контакт не найден — ничего не делаем (можно изменить на raise).
+        """
+        for i, contact in enumerate(cls.all_contacts):
+            if contact.id == contact_id:
+                del cls.all_contacts[i]
+                return  # Выходим после удаления первого найденного контакта
+        # Если контакт не найден:
+        # Можно добавить: raise ValueError(f"Контакт с ID {contact_id} не найден.")
+Примеры использования
+1. Основное задание:
+
+python
+print(ContactList.all_contacts)  # []
+
+ContactList.add_contact("Вася Пупкин", "0700100200")
+ContactList.add_contact("Виктор Цой", "0500123456")
+
+for contact in ContactList.all_contacts:
+    print(contact.name, contact.phone_number)
+    # Вася Пупкин 0700100200
+    # Виктор Цой 0500123456
+
+# ContactList.add_contact("John Doe", "5551234")  # Вызовет ValueError
+2. Дополнительное задание:
+
+python
+print(ContactList.last_id)  # 0
+
+ContactList.add_contact("Вася Пупкин", "0700100200")
+ContactList.add_contact("Виктор Цой", "0500123456")
+print(ContactList.last_id)  # 2
+
+ContactList.remove_contact(1)
+
+for contact in ContactList.all_contacts:
+    print(contact.name, contact.phone_number, contact.id)
+    # Виктор Цой 0500123456 2
+Пояснения
