@@ -23,6 +23,7 @@ class Tesla(ElectricCar, Car):
 
 if __name__ == "__main__":
     Tesla().start()
+    print()
 
 class BaseView:
     def render(self):
@@ -37,7 +38,7 @@ class LoggingMixin:
 
 
 class AuthRequiredMixin:
-    def init(self, authed=True):
+    def __init__(self, authed=True):
         self.authed = authed
 
     def render(self):
