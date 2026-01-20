@@ -1,5 +1,5 @@
 class Person:
-    def init(self, name, birth_date, occupation):
+    def __init__(self, name, birth_date, occupation):
         self.name = name
         self.birth_date = birth_date
         self.occupation = occupation
@@ -13,8 +13,8 @@ class Person:
 
 
 class Classmate(Person):
-    def init(self, name, birth_date, occupation, group_name):
-        super().init(name, birth_date, occupation)
+    def __init__(self, name, birth_date, occupation, group_name):
+        super().__init__(name, birth_date, occupation)
         self.group_name = group_name
 
     def introduce(self):
@@ -28,8 +28,8 @@ class Classmate(Person):
 
 
 class Friend(Person):
-    def init(self, name, birth_date, occupation, hobby):
-        super().init(name, birth_date, occupation)
+    def __init__(self, name, birth_date, occupation, hobby):
+        super().__init__(name, birth_date, occupation)
         self.hobby = hobby
 
     def introduce(self):
@@ -50,6 +50,5 @@ friend2 = Friend("Расул", "22.01.2001", "тестировщик", "игры
 
 classmate1.introduce()
 classmate2.introduce()
-
 friend1.introduce()
 friend2.introduce()
